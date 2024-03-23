@@ -3,5 +3,4 @@
 exec { 'pkill':
   command  => 'pkill killmenow',
   provider => 'shell',
-  path    => ['/usr/bin', '/usr/sbin', '/bin']
 }
