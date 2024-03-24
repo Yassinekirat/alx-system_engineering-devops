@@ -1,1 +1,7 @@
-#!/usr/bin/env bash
+# ssh config file
+Host *
+      PasswordAuthentication no
+      Hostname 54.146.61.127
+      IdentifyFile ~/.ssh/school
+      SendEnv LANG LC_*
+      
