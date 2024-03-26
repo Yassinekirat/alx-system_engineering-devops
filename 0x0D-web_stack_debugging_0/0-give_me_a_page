@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+#Starting apache2 server was the fix
+
+sudo service apache2 restart
