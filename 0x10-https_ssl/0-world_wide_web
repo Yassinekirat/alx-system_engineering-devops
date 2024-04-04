@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+# Bash script to display information about specified subdomains of a domain.
+
+if [ $# -lt 1 ]; then
+  echo "Usage: $0 domain [subdomain1 subdomain2 ...]"
+  exit 1
+fi
+
+domain="$1"
+
+subdomains=("www" "lb-01" "web-01" "web-02")
+
+if [ $# -gt 1 ]; then
+  subdomains=("${@:2}")
+fi
+
+for subdomain in "${subdomains[@]}"; do
+  output=$(dig "$subdomain.$domain" +short)
+  if [ -n "$output" ]; then
+    record_type=$(dig "$subdomain.$domain" +short -t A)
+    if [ -n "$record_type" ]; then
+      record_type="A"
+    else
+      record_type=$(dig "$subdomain.$domain" +short -t CNAME)
+      if [ -n "$record_type" ]; then
+        record_type="CNAME"
+      else
+        record_type="Unknown"
+      fi
+    fi
+    echo "The subdomain $subdomain is a $record_type record and points to $output"
+  elif [ $# -gt 1 ]; then
+    echo "The subdomain $subdomain does not exist"
+  fi
+done
