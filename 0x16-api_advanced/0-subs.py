@@ -6,16 +6,19 @@ import requests
 
 
 def number_of_subscribers(subreddit):
-    """returns How many subs"""
-
+    """Returns the number of subscribers for a given subreddit."""
     if subreddit is None or not isinstance(subreddit, str):
-        return (0)
-    url = ("https://api.reddit.com/r/{}/about".format(subreddit))
-    user_agent = {'User-Agent': 'Google Chrome Version 125.0.6422.114'}
-    response = requests.get(url, headers=user_agent, allow_redirects=False)
+        return 0
 
-    if 'data' in response.json():
-        return (response.json().get('data').get('subscribers'))
+    url = f"https://api.reddit.com/r/{subreddit}/about"
+    headers = {'User-Agent': 'MyCustomUserAgent/0.1'}
+    response = requests.get(url, headers=headers, allow_redirects=False)
 
-    else:
-        return (0)
+    if response.status_code != 200:
+        return 0
+
+    try:
+        data = response.json().get('data', {})
+        return data.get('subscribers', 0)
+    except ValueError:
+        return 0
