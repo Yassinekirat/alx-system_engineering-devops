@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-
 """How many subs are in a given subreddit using the Reddit api"""
 import requests
 
